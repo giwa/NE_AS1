@@ -1,0 +1,107 @@
+%	hw2.conf
+
+%	subnet definition:
+%		- subnet name: sn7100
+%		- prefix: 131.113.71.0/24
+%		- 2 hosts (A and B) are connected
+%
+subnet sn1 {
+	prefix 			1.2.16.0/22;	% prefix <prefix>;
+	node R1 		1.2.16.1;		% node <host_name> <IP_addr>;
+	node R1_11 		1.2.16.3;		% node <host_name> <IP_addr>;
+	node R1_12 		1.2.16.4;		% node <host_name> <IP_addr>;
+	node H1 		1.2.16.2;		% node <host_name> <IP_addr>;
+};
+
+subnet sn11 {
+	prefix 			1.2.17.0/24;	% prefix <prefix>;
+	node R1_11 		1.2.17.1;		% node <host_name> <IP_addr>;
+	node R1_111 	1.2.17.3;		% node <host_name> <IP_addr>;
+	node R1_112 	1.2.17.4;		% node <host_name> <IP_addr>;
+	node H11 		1.2.17.2;		% node <host_name> <IP_addr>;
+};
+
+subnet sn111 {
+	prefix 			1.2.17.64/26;	% prefix <prefix>;
+	node R1_111 	1.2.17.65;		% node <host_name> <IP_addr>;
+	node H111 		1.2.17.66;		% node <host_name> <IP_addr>;
+};
+
+subnet sn112 {
+	prefix 			1.2.17.128/26;	% prefix <prefix>;
+	node R1_112 	1.2.17.129;		% node <host_name> <IP_addr>;
+	node H112 		1.2.17.130;		% node <host_name> <IP_addr>;
+};
+
+subnet sn12 {
+	prefix 			1.2.17.0/24;	% prefix <prefix>;
+%	node R1_12 		1.2.18.1;		% node <host_name> <IP_addr>;
+%	node R1_121 	1.2.18.3;		% node <host_name> <IP_addr>;
+%	node R1_122 	1.2.18.4;		% node <host_name> <IP_addr>;
+%	node R1_123 	1.2.18.5;		% node <host_name> <IP_addr>;
+%	node H3 		1.2.18.2;		% node <host_name> <IP_addr>;
+};
+
+subnet sn121 {
+	prefix 			1.2.18.32/27;	% prefix <prefix>;
+%	node R1_121 	1.2.18.33;		% node <host_name> <IP_addr>;
+%	node H121 		1.2.18.34;		% node <host_name> <IP_addr>;
+};
+
+subnet sn122 {
+	prefix 			1.2.18.64/27;	% prefix <prefix>;
+%	node R1_122 	1.2.18.65;		% node <host_name> <IP_addr>;
+%	node H122 		1.2.18.66;		% node <host_name> <IP_addr>;
+};
+
+subnet sn123 {
+	prefix 			1.2.18.96/27;	% prefix <prefix>;
+%	node R1_123 	1.2.18.97;		% node <host_name> <IP_addr>;
+%	node H123 		1.2.18.98;		% node <host_name> <IP_addr>;
+};
+
+%
+%	Forwarding table definition: Host A
+%		- entry format: <dst_net> <next_router> <interface>
+fwtab R1 {
+	1.2.16.0/22			1.2.16.2		1.2.16.1;
+	
+	1.2.17.0/24			1.2.16.3		1.2.16.1;
+	1.2.17.64/26		1.2.16.3		1.2.16.1;
+	1.2.17.128/26		1.2.16.3		1.2.16.1;
+
+	1.2.18.0/24			1.2.16.4		1.2.16.1;
+	1.2.18.32/27		1.2.16.4		1.2.16.1;
+	1.2.18.64/27		1.2.16.4		1.2.16.1;
+	1.2.18.96/27		1.2.16.4		1.2.16.1;
+};
+
+
+fwtab R1_11 {
+	1.2.17.0/24			1.2.17.2		1.2.17.0;
+	
+	1.2.17.0/22			-				1.2.16.3;
+	1.2.17.0/24			-				1.2.17.0;
+	1.2.17.64/26		1.2.17.3		1.2.17.1;
+	1.2.17.128/26		1.2.17.4		1.2.17.1;
+
+	1.2.18.0/24			1.2.16.4		1.2.16.1;
+	1.2.18.32/27		1.2.16.4		1.2.16.1;
+	1.2.18.64/27		1.2.16.4		1.2.16.1;
+	1.2.18.96/27		1.2.16.4		1.2.16.1;
+};
+
+
+fwtab R1_111 {
+	1.2.17.64/26		1.2.17.66		1.2.17.64;
+
+	1.2.16.0/22			1.2.17.66		1.2.17.65;
+	1.2.17.0/24			-				1.2.17.65;
+	1.2.17.0/64			-				1.2.17.64;
+	1.2.17.128/24		1.2.17.66		1.2.17.65;
+};
+
+
+
+
+
